@@ -3,19 +3,20 @@ import Attacher from "../classes/Attacher";
 import { VIEWS } from "../helpers/constants";
 import AcceptContract from "./AcceptContract";
 import PlayHand from "./PlayHand";
+import GuessHand from "./GuessHand";
 
 const AttacherComponent = ({ attach, reach, account }) => {
 	const [round, setRound] = useState(0);
 	const [view, setView] = useState(VIEWS.ATTACH);
 	const [resolver, setResolver] = useState({});
-	const [outcome, setOutcome] = useState(0);
-	const [guess, setGuess] = useState(0);
+	const [outcome, setOutcome] = useState([]);
+	const [guess, setGuess] = useState([]); 
 	const [winner, setWinner] = useState("");
 	const [wager, setWager] = useState("");
 	const [value, setValue] = useState("");
 	const [show, setShow] = useState(false);
 	const [trial, setTrial] = useState(0);
-	const [hand, setHand] = useState(0);
+	const [hand, setHand] = useState(null);
 	const [opponentGuesses, setOpponentGuesses] = useState([]);
 
 	const setFunctions = {
@@ -28,7 +29,6 @@ const AttacherComponent = ({ attach, reach, account }) => {
 		setWager: (x) => setWager(x),
 		setHand: (x) => setHand(x),
 		setOpponentGuesses: (x) => setOpponentGuesses(x),
-		getOpponentGuesses: () => [...opponentGuesses],
 	};
 	const attacher = new Attacher(reach, setFunctions);
 
@@ -68,6 +68,18 @@ const AttacherComponent = ({ attach, reach, account }) => {
 					hand={hand}
 				></PlayHand>
 			)}
+
+			{
+				view === VIEWS.GUESS_HAND && (
+					<GuessHand 
+						resolver={resolver} 
+						guesses={guess} 
+						outcome={outcome}
+						trial={trial}
+						hand={hand}
+					></GuessHand>
+				)
+			}
 		</>
 	);
 };

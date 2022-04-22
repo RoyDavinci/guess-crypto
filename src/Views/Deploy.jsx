@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import Deployer from "../classes/Deployer";
 import { VIEWS } from "../helpers/constants";
+import PlayHand from "./PlayHand";
 
 const Deploy = ({ deploy, account, reach }) => {
-	const [round, setRound] = useState(0);
+	const [round, setRound] = useState(-1); //set to -1
 	const [view, setView] = useState(VIEWS.DEPLOY);
 	const [resolver, setResolver] = useState({});
 	const [outcome, setOutcome] = useState(0);
@@ -11,6 +12,9 @@ const Deploy = ({ deploy, account, reach }) => {
 	const [winner, setWinner] = useState("");
 	const [wager, setWager] = useState("");
 	const [value, setValue] = useState("");
+	const [trial, setTrial] = useState(-1);  //set to -1
+	const [hand, setHand] = useState(null);
+	const [opponentGuesses, setOpponentGuesses] = useState([]);
 
 	const setFunctions = {
 		setRound: (x) => setRound(x),
@@ -19,6 +23,9 @@ const Deploy = ({ deploy, account, reach }) => {
 		setOutcome: (x) => setOutcome(x),
 		setGuess: (x) => setGuess(x),
 		setWinner: (x) => setWinner(x),
+		setWager: (x) => setWager(x),
+		setHand: (x) => setHand(x),
+		setOpponentGuesses: (x) => setOpponentGuesses(x),
 	};
 	const deployer = new Deployer(reach, setFunctions);
 
@@ -49,6 +56,20 @@ const Deploy = ({ deploy, account, reach }) => {
 			{view === VIEWS.WAITING_FOR_ATTACHER && <h3>WAITING_FOR_ATTACHER....</h3>}
 			{view === VIEWS.ATTACH_SUCCESS && <h3>ATTACH_SUCCESS....</h3>}
 			{view === VIEWS.AWAITING_TURN && <h3>AWAITING_TURN....</h3>}
+			{view === VIEWS.PLAY_HAND && (
+				<PlayHand
+					resolver={resolver}
+					guesses={opponentGuesses}
+					hand={hand}
+				></PlayHand>
+			)}
+			{view === VIEWS.GUESS_HAND && (
+				<GuessHand 
+					resolver={resolver} 
+					guesses={guess} 
+					outcome={outcome}
+				></GuessHand>
+			)}
 		</>
 	);
 };

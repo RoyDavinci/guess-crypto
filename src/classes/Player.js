@@ -24,11 +24,13 @@ export default class Player {
 		return this.reach.hasRandom.random();
 	}
 	async guessHand() {
+		this,utils.setView(VIEWS.GUESS_HAND)
 		const hand = await new Promise((resolve) => {
 			this.utils.setResolver = {
 				resolve: (t) => resolve(t),
 			};
 		});
+		this.utils.setGuess(initialGuess => initialGuess.push(hand))
 		return hand;
 	}
 	async playHand() {
@@ -45,10 +47,10 @@ export default class Player {
 	viewGuess(guess) {
 		const value = [...this.utils.getOpponentGuesses()];
 		value.push(guess);
-		this.utils.setOpponentGuesses(value);
+		this.utils.setOpponentGuesses(prev => prev.push(guess));
 	}
 	compareGuessOutcome(outcome) {
-		this.utils.setOutcome(outcome);
+		this.utils.setOutcome(prev => prev.push(outcome));
 	}
 	informTimeout() {
 		this.utils.setView(VIEWS.TIMEOUT);
@@ -63,6 +65,7 @@ export default class Player {
 		this.trial = 0;
 		this.utils.setRound(this.round);
 		this.utils.setTrial(this.trial);
+		this.utils.setHand(null)
 	}
 	informNewTrial() {
 		this.utils.setView(VIEWS.AWAITING_RESULT);

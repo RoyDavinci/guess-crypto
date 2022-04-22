@@ -14,5 +14,12 @@ export const VIEWS = {
   AWAITING_RESULT: 'Awaiting Result',
   VIEW_GUESS: 'View Opponent Guess',
   PLAY_HAND: 'PlayHand',
+  GUESS_HAND: 'GuessHand',
   SHOW_WINNER: 'ShowWinner'
+}
+
+export const OUTCOME = {
+  'l': "Too Low",
+  'h': "Too High",
+  'c': "Correct"
 }

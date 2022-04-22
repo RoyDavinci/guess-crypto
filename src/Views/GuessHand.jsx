@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { OUTCOME } from "../helpers/constants";
 
-const PlayHand = ({ resolver, guesses, hand }) => {
+const GuessHand = ({ resolver, guesses, outcome, trial, hand }) => {
 	const [value, setValue] = useState(0);
 
 	const handleSubmit = (e) => {
@@ -13,7 +14,7 @@ const PlayHand = ({ resolver, guesses, hand }) => {
 			{
 				hand === null ? 
 				<>
-					<h3>Submit A Number</h3>
+					<h3>Submit Your Guess. You have three trials to get it right</h3>
 					<form onSubmit={handleSubmit}>
 						<input
 							type='number'
@@ -28,10 +29,13 @@ const PlayHand = ({ resolver, guesses, hand }) => {
 				</> :
 				<>
 					<h3>You played {hand}</h3>
+          {
+            outcome[trial] && <h4>Your guess was {outcome[trial]}</h4>
+          }
 					<table>
 						<thead>
 							<tr>
-								<td>Opponents Guess</td>
+								<td>Your Guesses</td>
 							</tr>
 							{guesses.map((guess, index) => {
 								return (
@@ -47,7 +51,13 @@ const PlayHand = ({ resolver, guesses, hand }) => {
 									return <td key={index}>{guess}</td>;
 								})}
 							</tr>
+              <tr>
+								{outcome.map((outcome, index) => {
+									return <td key={index}>{OUTCOME[outcome]}</td>;
+								})}
+							</tr>
 						</tbody>
+            
 					</table>
 				</>
 			}
@@ -58,4 +68,4 @@ const PlayHand = ({ resolver, guesses, hand }) => {
 	);
 };
 
-export default PlayHand;
+export default GuessHand;
