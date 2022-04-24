@@ -24,52 +24,52 @@ export default class Player {
 		return this.reach.hasRandom.random();
 	}
 	async guessHand() {
-		this,utils.setView(VIEWS.GUESS_HAND)
+		this.setFunctions.setView(VIEWS.GUESS_HAND)
 		const hand = await new Promise((resolve) => {
-			this.utils.setResolver = {
+			this.setFunctions.setResolver({
 				resolve: (t) => resolve(t),
-			};
+			});
 		});
-		this.utils.setGuess(initialGuess => initialGuess.push(hand))
+		this.setFunctions.setGuess(hand)
 		return hand;
 	}
 	async playHand() {
-		this.utils.setView(VIEWS.PLAY_HAND);
+		this.setFunctions.setView(VIEWS.PLAY_HAND);
 		const playHand = await new Promise((resolve) => {
-			this.utils.setResolver = {
+			this.setFunctions.setResolver({
 				resolve: (t) => resolve(t),
-			};
+			});
 		});
-		this.utils.setHand(playHand);
+		console.log(playHand)
+		this.setFunctions.setHand(playHand);
 		return playHand;
 	}
 
 	viewGuess(guess) {
-		const value = [...this.utils.getOpponentGuesses()];
+		const value = [...this.setFunctions.getOpponentGuesses()];
 		value.push(guess);
-		this.utils.setOpponentGuesses(prev => prev.push(guess));
+		this.setFunctions.setOpponentGuesses(guess);
 	}
 	compareGuessOutcome(outcome) {
-		this.utils.setOutcome(prev => prev.push(outcome));
+		this.setFunctions.setOutcome(prev => prev.push(outcome));
 	}
 	informTimeout() {
-		this.utils.setView(VIEWS.TIMEOUT);
+		this.setFunctions.setView(VIEWS.TIMEOUT);
 	}
 	showWinner(outcome) {
-		this.utils.setWinner(outcome);
-		this.utils.setView(VIEWS.SHOW_WINNER);
+		this.setFunctions.setWinner(outcome);
+		this.setFunctions.setView(VIEWS.SHOW_WINNER);
 	}
 	informNewRound() {
-		this.utils.setView(VIEWS.AWAITING_TURN);
+		this.setFunctions.setView(VIEWS.AWAITING_TURN);
 		this.round++;
-		this.trial = 0;
-		this.utils.setRound(this.round);
-		this.utils.setTrial(this.trial);
-		this.utils.setHand(null)
+		this.trial = -1;
+		this.setFunctions.setRound(this.round);
+		this.setFunctions.setTrial(this.trial);
+		this.setFunctions.setHand(null)
 	}
 	informNewTrial() {
-		this.utils.setView(VIEWS.AWAITING_RESULT);
 		this.trial++;
-		this.utils.setTrial(this.trial);
+		this.setFunctions.setTrial(this.trial);
 	}
 }

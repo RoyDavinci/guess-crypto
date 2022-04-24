@@ -23,6 +23,6 @@ export default class Deployer extends Player {
 		this.utils.setView(VIEWS.AWAITING_TURN);
 	}
 	informWaitingForAttacher() {
-		this.utils.setView(VIEWS.AWAITING_ATTACHER);
+		this.utils.setView(VIEWS.WAITING_FOR_ATTACHER);
 	}
 }

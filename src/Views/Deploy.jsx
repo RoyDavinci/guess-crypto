@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import Deployer from "../classes/Deployer";
 import { VIEWS } from "../helpers/constants";
 import PlayHand from "./PlayHand";
+import GuessHand from "./GuessHand"
 
 const Deploy = ({ deploy, account, reach }) => {
 	const [round, setRound] = useState(-1); //set to -1
 	const [view, setView] = useState(VIEWS.DEPLOY);
 	const [resolver, setResolver] = useState({});
-	const [outcome, setOutcome] = useState(0);
-	const [guess, setGuess] = useState(0);
+	const [outcome, setOutcome] = useState([]);
+	const [guess, setGuess] = useState([]);
 	const [winner, setWinner] = useState("");
 	const [wager, setWager] = useState("");
 	const [value, setValue] = useState("");
@@ -21,11 +22,20 @@ const Deploy = ({ deploy, account, reach }) => {
 		setView: (x) => setView(x),
 		setResolver: (x) => setResolver(x),
 		setOutcome: (x) => setOutcome(x),
-		setGuess: (x) => setGuess(x),
+		setGuess: (x) => {
+			const copy = [...guess];
+			copy.push(x)
+			setGuess(copy)
+		},
 		setWinner: (x) => setWinner(x),
 		setWager: (x) => setWager(x),
 		setHand: (x) => setHand(x),
-		setOpponentGuesses: (x) => setOpponentGuesses(x),
+		setOpponentGuesses: (x) => {
+			const copy = [...opponentGuesses];
+			copy.push(x)
+			setOpponentGuesses(copy)
+		},
+		setTrial: (x) => setTrial(x)
 	};
 	const deployer = new Deployer(reach, setFunctions);
 
@@ -35,7 +45,9 @@ const Deploy = ({ deploy, account, reach }) => {
 		const values = await deploy.deploy(deployer, wager);
 		setValue(values);
 		console.log(values);
+		setView(VIEWS.WAITING_FOR_ATTACHER)
 	};
+	console.log(view);
 
 	return (
 		<>

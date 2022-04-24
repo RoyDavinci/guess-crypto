@@ -8,11 +8,13 @@ const GuessHand = ({ resolver, guesses, outcome, trial, hand }) => {
 		e.preventDefault();
 		resolver.resolve(value);
 	};
+	console.log(hand)
+	console.log(guesses)
 
 	return (
 		<>
 			{
-				hand === null ? 
+				hand === undefined ? 
 				<>
 					<h3>Submit Your Guess. You have three trials to get it right</h3>
 					<form onSubmit={handleSubmit}>
@@ -24,7 +26,7 @@ const GuessHand = ({ resolver, guesses, outcome, trial, hand }) => {
 							value={value}
 							onChange={(e) => setValue(e.target.value)}
 						/>
-						<button>Play Hand</button>
+						<button>Guess Hand</button>
 					</form>
 				</> :
 				<>
@@ -32,7 +34,10 @@ const GuessHand = ({ resolver, guesses, outcome, trial, hand }) => {
           {
             outcome[trial] && <h4>Your guess was {outcome[trial]}</h4>
           }
-					<table>
+					
+				</>
+			}
+			<table>
 						<thead>
 							<tr>
 								<td>Your Guesses</td>
@@ -59,9 +64,6 @@ const GuessHand = ({ resolver, guesses, outcome, trial, hand }) => {
 						</tbody>
             
 					</table>
-				</>
-			}
-			
 
 			
 		</>

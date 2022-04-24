@@ -4,6 +4,7 @@ const PlayHand = ({ resolver, guesses, hand }) => {
 	const [value, setValue] = useState(0);
 
 	const handleSubmit = (e) => {
+		console.log('play hand')
 		e.preventDefault();
 		resolver.resolve(value);
 	};
@@ -14,7 +15,6 @@ const PlayHand = ({ resolver, guesses, hand }) => {
 				hand === null ? 
 				<>
 					<h3>Submit A Number</h3>
-					<form onSubmit={handleSubmit}>
 						<input
 							type='number'
 							min='0'
@@ -23,8 +23,7 @@ const PlayHand = ({ resolver, guesses, hand }) => {
 							value={value}
 							onChange={(e) => setValue(e.target.value)}
 						/>
-						<button>Play Hand</button>
-					</form>
+						<button onClick={handleSubmit}>Play Hand</button>
 				</> :
 				<>
 					<h3>You played {hand}</h3>
