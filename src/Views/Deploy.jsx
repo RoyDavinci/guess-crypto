@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Deployer from "../classes/Deployer";
 import { VIEWS } from "../helpers/constants";
 import PlayHand from "./PlayHand";
-import GuessHand from "./GuessHand"
+import GuessHand from "./GuessHand";
 
 const Deploy = ({ deploy, account, reach }) => {
 	const [round, setRound] = useState(-1); //set to -1
@@ -13,9 +13,11 @@ const Deploy = ({ deploy, account, reach }) => {
 	const [winner, setWinner] = useState("");
 	const [wager, setWager] = useState("");
 	const [value, setValue] = useState("");
-	const [trial, setTrial] = useState(-1);  //set to -1
+	const [trial, setTrial] = useState(-1); //set to -1
 	const [hand, setHand] = useState(null);
 	const [opponentGuesses, setOpponentGuesses] = useState([]);
+	const arr = [];
+	console.log(typeof opponentGuesses, opponentGuesses, typeof arr);
 
 	const setFunctions = {
 		setRound: (x) => setRound(x),
@@ -24,19 +26,20 @@ const Deploy = ({ deploy, account, reach }) => {
 		setOutcome: (x) => setOutcome(x),
 		setGuess: (x) => {
 			const copy = [...guess];
-			copy.push(x)
-			setGuess(copy)
+			copy.push(x);
+			setGuess(copy);
 		},
 		setWinner: (x) => setWinner(x),
 		setWager: (x) => setWager(x),
 		setHand: (x) => setHand(x),
 		setOpponentGuesses: (x) => {
 			const copy = [...opponentGuesses];
-			copy.push(x)
-			setOpponentGuesses(copy)
+			copy.push(x);
+			setOpponentGuesses(copy);
 		},
-		setTrial: (x) => setTrial(x)
+		setTrial: (x) => setTrial(x),
 	};
+	console.log(trial);
 	const deployer = new Deployer(reach, setFunctions);
 
 	const handleSubmit = async (e) => {
@@ -45,7 +48,7 @@ const Deploy = ({ deploy, account, reach }) => {
 		const values = await deploy.deploy(deployer, wager);
 		setValue(values);
 		console.log(values);
-		setView(VIEWS.WAITING_FOR_ATTACHER)
+		setView(VIEWS.WAITING_FOR_ATTACHER);
 	};
 	console.log(view);
 
@@ -76,9 +79,9 @@ const Deploy = ({ deploy, account, reach }) => {
 				></PlayHand>
 			)}
 			{view === VIEWS.GUESS_HAND && (
-				<GuessHand 
-					resolver={resolver} 
-					guesses={guess} 
+				<GuessHand
+					resolver={resolver}
+					guesses={guess}
 					outcome={outcome}
 				></GuessHand>
 			)}

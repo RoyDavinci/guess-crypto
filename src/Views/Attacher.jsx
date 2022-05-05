@@ -10,7 +10,7 @@ const AttacherComponent = ({ attach, reach, account }) => {
 	const [view, setView] = useState(VIEWS.ATTACH);
 	const [resolver, setResolver] = useState({});
 	const [outcome, setOutcome] = useState([]);
-	const [guess, setGuess] = useState([]); 
+	const [guess, setGuess] = useState([]);
 	const [winner, setWinner] = useState("");
 	const [wager, setWager] = useState("");
 	const [value, setValue] = useState("");
@@ -18,6 +18,7 @@ const AttacherComponent = ({ attach, reach, account }) => {
 	const [trial, setTrial] = useState(0);
 	const [hand, setHand] = useState(null);
 	const [opponentGuesses, setOpponentGuesses] = useState([]);
+	console.log(opponentGuesses, typeof opponentGuesses);
 
 	const setFunctions = {
 		setRound: (x) => setRound(x),
@@ -26,28 +27,28 @@ const AttacherComponent = ({ attach, reach, account }) => {
 		setOutcome: (x) => setOutcome(x),
 		setGuess: (x) => {
 			const copy = [...guess];
-			copy.push(x)
-			setGuess(copy)
+			copy.push(x);
+			setGuess(copy);
 		},
 		setWinner: (x) => setWinner(x),
 		setWager: (x) => setWager(x),
 		setHand: (x) => setHand(x),
 		setOpponentGuesses: (x) => {
-			const copy = [...opponentGuesses];
-			copy.push(x)
-			setOpponentGuesses(copy)
+			const copy = [...guess];
+			copy.push(x);
+			setOpponentGuesses(copy);
 		},
-		setTrial: (x) => setTrial(x)
+		setTrial: (x) => setTrial(x),
 	};
 	const attacher = new Attacher(reach, setFunctions);
 
 	const handleSubmit = (e) => {
-		console.log('attach')
+		console.log("attach");
 		e.preventDefault();
 		attach.attach(attacher, value);
 	};
 
-	console.log(view);
+	console.log(view, typeof opponentGuesses);
 
 	return (
 		<>
@@ -79,17 +80,15 @@ const AttacherComponent = ({ attach, reach, account }) => {
 				></PlayHand>
 			)}
 
-			{
-				view === VIEWS.GUESS_HAND && (
-					<GuessHand 
-						resolver={resolver} 
-						guesses={guess} 
-						outcome={outcome}
-						trial={trial}
-						hand={hand}
-					></GuessHand>
-				)
-			}
+			{view === VIEWS.GUESS_HAND && (
+				<GuessHand
+					resolver={resolver}
+					guesses={guess}
+					outcome={outcome}
+					trial={trial}
+					hand={hand}
+				></GuessHand>
+			)}
 		</>
 	);
 };

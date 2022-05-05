@@ -24,13 +24,13 @@ export default class Player {
 		return this.reach.hasRandom.random();
 	}
 	async guessHand() {
-		this.setFunctions.setView(VIEWS.GUESS_HAND)
+		this.setFunctions.setView(VIEWS.GUESS_HAND);
 		const hand = await new Promise((resolve) => {
 			this.setFunctions.setResolver({
 				resolve: (t) => resolve(t),
 			});
 		});
-		this.setFunctions.setGuess(hand)
+		this.setFunctions.setGuess(hand);
 		return hand;
 	}
 	async playHand() {
@@ -40,18 +40,18 @@ export default class Player {
 				resolve: (t) => resolve(t),
 			});
 		});
-		console.log(playHand)
+		console.log(playHand);
 		this.setFunctions.setHand(playHand);
 		return playHand;
 	}
 
 	viewGuess(guess) {
-		const value = [...this.setFunctions.getOpponentGuesses()];
-		value.push(guess);
-		this.setFunctions.setOpponentGuesses(guess);
+		// const value = [...this.setFunctions.getOpponentGuesses()];
+		// value.push(guess);
+		this.setFunctions.setOpponentGuesses((prev) => [...prev, guess]);
 	}
 	compareGuessOutcome(outcome) {
-		this.setFunctions.setOutcome(prev => prev.push(outcome));
+		this.setFunctions.setOutcome((prev) => [...prev, outcome]);
 	}
 	informTimeout() {
 		this.setFunctions.setView(VIEWS.TIMEOUT);
@@ -66,7 +66,7 @@ export default class Player {
 		this.trial = -1;
 		this.setFunctions.setRound(this.round);
 		this.setFunctions.setTrial(this.trial);
-		this.setFunctions.setHand(null)
+		this.setFunctions.setHand(null);
 	}
 	informNewTrial() {
 		this.trial++;
