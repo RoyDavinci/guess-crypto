@@ -30,24 +30,25 @@ export default class Player {
 				resolve: (t) => resolve(t),
 			});
 		});
-		this.setFunctions.setGuess(hand);
+		this.setFunctions.setGuess((prev) => [...prev, hand]);
 		return hand;
 	}
 	async playHand() {
 		this.setFunctions.setView(VIEWS.PLAY_HAND);
-		const playHand = await new Promise((resolve) => {
+		const hand = await new Promise((resolve) => {
 			this.setFunctions.setResolver({
 				resolve: (t) => resolve(t),
 			});
 		});
-		console.log(playHand);
-		this.setFunctions.setHand(playHand);
-		return playHand;
+		console.log(hand);
+		this.setFunctions.setHand(hand);
+		return hand;
 	}
 
-	viewGuess(guess) {
+	viewGuess(guessHex) {
 		// const value = [...this.setFunctions.getOpponentGuesses()];
 		// value.push(guess);
+		const guess = parseInt(guessHex)
 		this.setFunctions.setOpponentGuesses((prev) => [...prev, guess]);
 	}
 	compareGuessOutcome(outcome) {
@@ -66,7 +67,9 @@ export default class Player {
 		this.trial = -1;
 		this.setFunctions.setRound(this.round);
 		this.setFunctions.setTrial(this.trial);
-		this.setFunctions.setHand(null);
+		this.setFunctions.setHand(undefined);
+		this.setFunctions.setGuess([]);
+		this.setFunctions.setOpponentGuesses([]);
 	}
 	informNewTrial() {
 		this.trial++;

@@ -24,19 +24,11 @@ const Deploy = ({ deploy, account, reach }) => {
 		setView: (x) => setView(x),
 		setResolver: (x) => setResolver(x),
 		setOutcome: (x) => setOutcome(x),
-		setGuess: (x) => {
-			const copy = [...guess];
-			copy.push(x);
-			setGuess(copy);
-		},
+		setGuess: (x) => setGuess(x),
 		setWinner: (x) => setWinner(x),
 		setWager: (x) => setWager(x),
 		setHand: (x) => setHand(x),
-		setOpponentGuesses: (x) => {
-			const copy = [...opponentGuesses];
-			copy.push(x);
-			setOpponentGuesses(copy);
-		},
+		setOpponentGuesses: (x) => setOpponentGuesses(x),
 		setTrial: (x) => setTrial(x),
 	};
 	console.log(trial);

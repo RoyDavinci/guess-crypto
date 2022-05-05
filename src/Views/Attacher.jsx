@@ -18,26 +18,18 @@ const AttacherComponent = ({ attach, reach, account }) => {
 	const [trial, setTrial] = useState(0);
 	const [hand, setHand] = useState(null);
 	const [opponentGuesses, setOpponentGuesses] = useState([]);
-	console.log(opponentGuesses, typeof opponentGuesses);
+	console.log(opponentGuesses);
 
 	const setFunctions = {
 		setRound: (x) => setRound(x),
 		setView: (x) => setView(x),
 		setResolver: (x) => setResolver(x),
 		setOutcome: (x) => setOutcome(x),
-		setGuess: (x) => {
-			const copy = [...guess];
-			copy.push(x);
-			setGuess(copy);
-		},
+		setGuess: (x) => setGuess(x),
 		setWinner: (x) => setWinner(x),
 		setWager: (x) => setWager(x),
 		setHand: (x) => setHand(x),
-		setOpponentGuesses: (x) => {
-			const copy = [...guess];
-			copy.push(x);
-			setOpponentGuesses(copy);
-		},
+		setOpponentGuesses: (x) => setOpponentGuesses(x),
 		setTrial: (x) => setTrial(x),
 	};
 	const attacher = new Attacher(reach, setFunctions);
@@ -47,8 +39,7 @@ const AttacherComponent = ({ attach, reach, account }) => {
 		e.preventDefault();
 		attach.attach(attacher, value);
 	};
-
-	console.log(view, typeof opponentGuesses);
+	console.log(view)
 
 	return (
 		<>
