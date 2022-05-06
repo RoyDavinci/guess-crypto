@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Deployer from "../classes/Deployer";
 import { VIEWS } from "../helpers/constants";
 import PlayHand from "./PlayHand";
 import GuessHand from "./GuessHand";
 
 const Deploy = ({ deploy, account, reach }) => {
+	const [newTurn, setNewTurn] = useState(true)
+	const [point, setPoint] = useState(50);
+	const [opponentPoint, setOpponentPoint] = useState(50);
 	const [round, setRound] = useState(-1); //set to -1
 	const [view, setView] = useState(VIEWS.DEPLOY);
 	const [resolver, setResolver] = useState({});
@@ -16,11 +19,10 @@ const Deploy = ({ deploy, account, reach }) => {
 	const [trial, setTrial] = useState(-1); //set to -1
 	const [hand, setHand] = useState(null);
 	const [opponentGuesses, setOpponentGuesses] = useState([]);
-	const arr = [];
-	console.log(typeof opponentGuesses, opponentGuesses, typeof arr);
 
 	const setFunctions = {
 		setRound: (x) => setRound(x),
+		setNewTurn: (x) => setNewTurn(x),
 		setView: (x) => setView(x),
 		setResolver: (x) => setResolver(x),
 		setOutcome: (x) => setOutcome(x),
@@ -31,7 +33,6 @@ const Deploy = ({ deploy, account, reach }) => {
 		setOpponentGuesses: (x) => setOpponentGuesses(x),
 		setTrial: (x) => setTrial(x),
 	};
-	console.log(trial);
 	const deployer = new Deployer(reach, setFunctions);
 
 	const handleSubmit = async (e) => {
@@ -42,7 +43,21 @@ const Deploy = ({ deploy, account, reach }) => {
 		console.log(values);
 		setView(VIEWS.WAITING_FOR_ATTACHER);
 	};
-	console.log(view);
+	
+	useEffect(() => {
+		if(newTurn){
+			if(opponentGuesses.includes(guess)){
+				setOpponentPoint(opponentPoint + 10)
+				setPoint(point - 10)
+				setNewTurn(false)
+			} 
+			else if(opponentGuesses.length === 3){
+				setOpponentPoint(opponentPoint - 10)
+				setPoint(point + 10)
+				setNewTurn(false)
+			}
+		}
+	}, [newTurn, guess, opponentGuesses, point, opponentPoint])
 
 	return (
 		<>
@@ -62,6 +77,16 @@ const Deploy = ({ deploy, account, reach }) => {
 			{view === VIEWS.DEPLOYING && <h3>DEPLOYING....</h3>}
 			{view === VIEWS.WAITING_FOR_ATTACHER && <h3>WAITING_FOR_ATTACHER....</h3>}
 			{view === VIEWS.ATTACH_SUCCESS && <h3>ATTACH_SUCCESS....</h3>}
+
+			{/* {
+				![VIEWS.DEPLOYING, VIEWS.DEPLOY, VIEWS.WAITING_FOR_ATTACHER, VIEWS.ATTACH_SUCCESS].includes(view) 
+					&& 
+				<>
+					<h4>Your Points: {point}</h4>
+					<h4>Opponent Points: {opponentPoint}</h4>
+				</>
+			} */}
+
 			{view === VIEWS.AWAITING_TURN && <h3>AWAITING_TURN....</h3>}
 			{view === VIEWS.PLAY_HAND && (
 				<PlayHand
@@ -75,8 +100,15 @@ const Deploy = ({ deploy, account, reach }) => {
 					resolver={resolver}
 					guesses={guess}
 					outcome={outcome}
+					trial={trial}
 				></GuessHand>
 			)}
+
+			{
+				view === VIEWS.SHOW_WINNER && (
+					<h2>{ winner === 'a' ? 'You Win' : winner === 'd' ? 'Nobody wins' : 'You lose'}</h2>
+				)
+			}
 		</>
 	);
 };

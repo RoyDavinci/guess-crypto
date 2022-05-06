@@ -7,6 +7,7 @@ const GuessHand = ({ resolver, guesses, outcome, trial, hand }) => {
 	// const [guessed, setGuessed] = useState([]);
 
 	console.log(outcome, guesses);
+	console.log(trial)
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -20,8 +21,6 @@ const GuessHand = ({ resolver, guesses, outcome, trial, hand }) => {
 
 	return (
 		<>
-			{hand === undefined ? (
-				<>
 					<h3>Submit Your Guess. You have three trials to get it right</h3>
 					<form onSubmit={handleSubmit}>
 						<input
@@ -34,25 +33,27 @@ const GuessHand = ({ resolver, guesses, outcome, trial, hand }) => {
 						/>
 						<button>Guess Hand</button>
 					</form>
-				</>
-			) : (
-				<>
-					<h3>You played {hand}</h3>
-					{outcome[trial] && <h4>Your guess was {outcome[trial]}</h4>}
-				</>
-			)}
+					{
+						guesses.length > 0 ?
+						<>
+							<h3>You guessed {guesses[trial - 1]}</h3>
+							{ outcome[trial - 1 ] ? <h4>Your guess was {OUTCOME[outcome[trial - 1]]}</h4> : null} 
+						</>
+						: null
+					}
+					
 			<table>
 				<thead>
 					<tr>
 						<td>Your Guesses</td>
 					</tr>
+					<tr>
 					{guesses.map((guess, index) => {
 						return (
-							<tr key={index}>
 								<td>Trial {index + 1}</td>
-							</tr>
 						);
 					})}
+					</tr>
 				</thead>
 				<tbody>
 					<tr>

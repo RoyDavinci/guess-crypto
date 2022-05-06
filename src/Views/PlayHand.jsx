@@ -5,14 +5,14 @@ const PlayHand = ({ resolver, guesses, hand }) => {
 	console.log(guesses);
 
 	const handleSubmit = (e) => {
-		console.log("play hand");
 		e.preventDefault();
 		resolver.resolve(value);
 	};
+	console.log(hand)
 
 	return (
 		<>
-			{hand === null ? (
+			{ ((hand === null)||(hand === undefined)) ? (
 				<>
 					<h3>Submit A Number</h3>
 					<input
@@ -33,13 +33,13 @@ const PlayHand = ({ resolver, guesses, hand }) => {
 							<tr>
 								<td>Opponents Guess</td>
 							</tr>
+							<tr>
 							{guesses.map((guess, index) => {
 								return (
-									<tr key={index}>
 										<td>Trial {index + 1}</td>
-									</tr>
 								);
 							})}
+								</tr>
 						</thead>
 						<tbody>
 							<tr>

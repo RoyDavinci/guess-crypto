@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Attacher from "../classes/Attacher";
 import { VIEWS } from "../helpers/constants";
 import AcceptContract from "./AcceptContract";
@@ -6,6 +6,9 @@ import PlayHand from "./PlayHand";
 import GuessHand from "./GuessHand";
 
 const AttacherComponent = ({ attach, reach, account }) => {
+	const [newTurn, setNewTurn] = useState(true)
+	const [point, setPoint] = useState(50);
+	const [opponentPoint, setOpponentPoint] = useState(50);
 	const [round, setRound] = useState(0);
 	const [view, setView] = useState(VIEWS.ATTACH);
 	const [resolver, setResolver] = useState({});
@@ -22,6 +25,7 @@ const AttacherComponent = ({ attach, reach, account }) => {
 
 	const setFunctions = {
 		setRound: (x) => setRound(x),
+		setNewTurn: (x) => setNewTurn(x),
 		setView: (x) => setView(x),
 		setResolver: (x) => setResolver(x),
 		setOutcome: (x) => setOutcome(x),
@@ -39,7 +43,21 @@ const AttacherComponent = ({ attach, reach, account }) => {
 		e.preventDefault();
 		attach.attach(attacher, value);
 	};
-	console.log(view)
+
+	useEffect(() => {
+		if(newTurn){
+			if(opponentGuesses.includes(guess)){
+				setOpponentPoint(opponentPoint + 10)
+				setPoint(point - 10)
+				setNewTurn(false)
+			} 
+			else if(opponentGuesses.length === 3){
+				setOpponentPoint(opponentPoint - 10)
+				setPoint(point + 10)
+				setNewTurn(false)
+			}
+		}
+	}, [newTurn, guess, opponentGuesses, point, opponentPoint])
 
 	return (
 		<>
@@ -62,6 +80,14 @@ const AttacherComponent = ({ attach, reach, account }) => {
 			)}
 
 			{view === VIEWS.ATTACHING && <h3>ATTACHING....</h3>}
+			{/* {
+				![VIEWS.ATTACHING, VIEWS.ATTACH, VIEWS.ACCEPT_TERMS].includes(view) 
+					&& 
+				<>
+					<h4>Your Points: {point}</h4>
+					<h4>Opponent Points: {opponentPoint}</h4>
+				</>
+			} */}
 			{view === VIEWS.AWAITING_TURN && <h3>AWAITING_TURN....</h3>}
 			{view === VIEWS.PLAY_HAND && (
 				<PlayHand
@@ -80,6 +106,12 @@ const AttacherComponent = ({ attach, reach, account }) => {
 					hand={hand}
 				></GuessHand>
 			)}
+
+{
+				view === VIEWS.SHOW_WINNER && (
+					<h2>{ winner === 'b' ? 'You Win' : winner === 'd' ? 'Nobody wins' : 'You lose'}</h2>
+				)
+			}
 		</>
 	);
 };
