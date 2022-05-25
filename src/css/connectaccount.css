@@ -1,0 +1,18 @@
+.connectAccount__Container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	min-height: 50vh;
+	color: #fff;
+	padding: 20px;
+	background-image: url("https://media.giphy.com/media/cQhmYBg9qPaLYdqajA/giphy.gif");
+}
+.connectAccount__Item {
+	/* border: 1px solid #ccc; */
+	border-radius: 5px;
+	padding: 20px;
+}
+.connectAccount__Item img {
+	height: 10rem;
+}

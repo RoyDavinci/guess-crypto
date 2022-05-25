@@ -1,0 +1,38 @@
+.deployerContainer {
+	padding: 15px;
+	color: #fff;
+	border-radius: 5px;
+	background: #232526; /* fallback for old browsers */
+	background: -webkit-linear-gradient(
+		to right,
+		#414345,
+		#232526
+	); /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(
+		to right,
+		#414345,
+		#232526
+	); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.deployerContainer .deployerContainer__Item {
+	padding: 20px;
+	text-align: center;
+	margin: 0 auto;
+}
+.deployerContainer__Item form input,
+.deployerContainer__Item form button {
+	display: block;
+	padding: 10px;
+	border-radius: 5px;
+	font-size: 20px;
+	color: #fff;
+}
+.deployerContainer__Item form input {
+	background-color: #fff;
+	color: black;
+	margin: 20px auto;
+}
+.deployerContainer__Item form button {
+	background-color: #0275d8;
+	margin: 20px auto;
+}

@@ -4,9 +4,10 @@ import { VIEWS } from "../helpers/constants";
 import AcceptContract from "./AcceptContract";
 import PlayHand from "./PlayHand";
 import GuessHand from "./GuessHand";
+import "../css/attach.css";
 
 const AttacherComponent = ({ attach, reach, account }) => {
-	const [newTurn, setNewTurn] = useState(true)
+	const [newTurn, setNewTurn] = useState(true);
 	const [point, setPoint] = useState(50);
 	const [opponentPoint, setOpponentPoint] = useState(50);
 	const [round, setRound] = useState(0);
@@ -45,25 +46,24 @@ const AttacherComponent = ({ attach, reach, account }) => {
 	};
 
 	useEffect(() => {
-		if(newTurn){
-			if(opponentGuesses.includes(guess)){
-				setOpponentPoint(opponentPoint + 10)
-				setPoint(point - 10)
-				setNewTurn(false)
-			} 
-			else if(opponentGuesses.length === 3){
-				setOpponentPoint(opponentPoint - 10)
-				setPoint(point + 10)
-				setNewTurn(false)
+		if (newTurn) {
+			if (opponentGuesses.includes(guess)) {
+				setOpponentPoint(opponentPoint + 10);
+				setPoint(point - 10);
+				setNewTurn(false);
+			} else if (opponentGuesses.length === 3) {
+				setOpponentPoint(opponentPoint - 10);
+				setPoint(point + 10);
+				setNewTurn(false);
 			}
 		}
-	}, [newTurn, guess, opponentGuesses, point, opponentPoint])
+	}, [newTurn, guess, opponentGuesses, point, opponentPoint]);
 
 	return (
-		<>
+		<div className='attachContainer'>
 			{view === VIEWS.ATTACH && (
-				<>
-					<h1>welcome</h1>
+				<div className='attachContainer__Item'>
+					<h1>Welcome Attacher</h1>
 					<form method='' action='' onSubmit={handleSubmit}>
 						<textarea
 							col='30'
@@ -73,22 +73,14 @@ const AttacherComponent = ({ attach, reach, account }) => {
 						></textarea>
 						<button type='submit'>Attach The Contract</button>
 					</form>
-				</>
+				</div>
 			)}
 			{view === VIEWS.ACCEPT_TERMS && (
 				<AcceptContract wager={wager} resolver={resolver}></AcceptContract>
 			)}
 
-			{view === VIEWS.ATTACHING && <h3>ATTACHING....</h3>}
-			{/* {
-				![VIEWS.ATTACHING, VIEWS.ATTACH, VIEWS.ACCEPT_TERMS].includes(view) 
-					&& 
-				<>
-					<h4>Your Points: {point}</h4>
-					<h4>Opponent Points: {opponentPoint}</h4>
-				</>
-			} */}
-			{view === VIEWS.AWAITING_TURN && <h3>AWAITING_TURN....</h3>}
+			{view === VIEWS.ATTACHING && <h1>ATTACHING....</h1>}
+			{view === VIEWS.AWAITING_TURN && <h1>AWAITING_TURN....</h1>}
 			{view === VIEWS.PLAY_HAND && (
 				<PlayHand
 					resolver={resolver}
@@ -107,12 +99,16 @@ const AttacherComponent = ({ attach, reach, account }) => {
 				></GuessHand>
 			)}
 
-{
-				view === VIEWS.SHOW_WINNER && (
-					<h2>{ winner === 'b' ? 'You Win' : winner === 'd' ? 'Nobody wins' : 'You lose'}</h2>
-				)
-			}
-		</>
+			{view === VIEWS.SHOW_WINNER && (
+				<h2>
+					{winner === "b"
+						? "You Win"
+						: winner === "d"
+						? "Nobody wins"
+						: "You lose"}
+				</h2>
+			)}
+		</div>
 	);
 };
 

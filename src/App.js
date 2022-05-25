@@ -10,6 +10,9 @@ import DeployerOrAttacher from "./Views/DeployerOrAttacher";
 import * as backend from "./build/index.main.mjs";
 import { loadStdlib } from "@reach-sh/stdlib";
 import { ALGO_MyAlgoConnect as MyAlgoConnect } from "@reach-sh/stdlib";
+import Deploying from "./Views/Deploying";
+import AwaitingTurn from "./Views/AwaitingTurn";
+import WaitingAttacher from "./Views/WaitingAttacher";
 
 const reach = loadStdlib("ALGO");
 reach.setWalletFallback(
@@ -19,7 +22,6 @@ reach.setWalletFallback(
 	})
 );
 const { standardUnit } = reach;
-// console.log(reach);
 const defaults = {
 	defaultFundAmount: "10",
 	defaultWager: "3",

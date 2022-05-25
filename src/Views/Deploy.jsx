@@ -3,9 +3,13 @@ import Deployer from "../classes/Deployer";
 import { VIEWS } from "../helpers/constants";
 import PlayHand from "./PlayHand";
 import GuessHand from "./GuessHand";
+import "../css/deploy.css";
+import Deploying from "./Deploying";
+import WaitingAttacher from "./WaitingAttacher";
+import AwaitingTurn from "./AwaitingTurn";
 
 const Deploy = ({ deploy, account, reach }) => {
-	const [newTurn, setNewTurn] = useState(true)
+	const [newTurn, setNewTurn] = useState(true);
 	const [point, setPoint] = useState(50);
 	const [opponentPoint, setOpponentPoint] = useState(50);
 	const [round, setRound] = useState(-1); //set to -1
@@ -43,51 +47,38 @@ const Deploy = ({ deploy, account, reach }) => {
 		console.log(values);
 		setView(VIEWS.WAITING_FOR_ATTACHER);
 	};
-	
+
 	useEffect(() => {
-		if(newTurn){
-			if(opponentGuesses.includes(guess)){
-				setOpponentPoint(opponentPoint + 10)
-				setPoint(point - 10)
-				setNewTurn(false)
-			} 
-			else if(opponentGuesses.length === 3){
-				setOpponentPoint(opponentPoint - 10)
-				setPoint(point + 10)
-				setNewTurn(false)
+		if (newTurn) {
+			if (opponentGuesses.includes(guess)) {
+				setOpponentPoint(opponentPoint + 10);
+				setPoint(point - 10);
+				setNewTurn(false);
+			} else if (opponentGuesses.length === 3) {
+				setOpponentPoint(opponentPoint - 10);
+				setPoint(point + 10);
+				setNewTurn(false);
 			}
 		}
-	}, [newTurn, guess, opponentGuesses, point, opponentPoint])
+	}, [newTurn, guess, opponentGuesses, point, opponentPoint]);
 
 	return (
-		<>
+		<div className='deployerContainer'>
 			{view === VIEWS.DEPLOY && (
-				<>
-					<h1>welcome</h1>
+				<div className='deployerContainer__Item'>
+					<h1>Welcome Deployer</h1>
 					<form method='' action='' onSubmit={handleSubmit}>
 						<input
 							value={wager}
 							name=''
 							onChange={(e) => setWager(e.target.value)}
+							required
+							placeholder='Set the wager amount'
 						/>
 						<button type='submit'>Set Wager</button>
 					</form>
-				</>
+				</div>
 			)}
-			{view === VIEWS.DEPLOYING && <h3>DEPLOYING....</h3>}
-			{view === VIEWS.WAITING_FOR_ATTACHER && <h3>WAITING_FOR_ATTACHER....</h3>}
-			{view === VIEWS.ATTACH_SUCCESS && <h3>ATTACH_SUCCESS....</h3>}
-
-			{/* {
-				![VIEWS.DEPLOYING, VIEWS.DEPLOY, VIEWS.WAITING_FOR_ATTACHER, VIEWS.ATTACH_SUCCESS].includes(view) 
-					&& 
-				<>
-					<h4>Your Points: {point}</h4>
-					<h4>Opponent Points: {opponentPoint}</h4>
-				</>
-			} */}
-
-			{view === VIEWS.AWAITING_TURN && <h3>AWAITING_TURN....</h3>}
 			{view === VIEWS.PLAY_HAND && (
 				<PlayHand
 					resolver={resolver}
@@ -103,13 +94,30 @@ const Deploy = ({ deploy, account, reach }) => {
 					trial={trial}
 				></GuessHand>
 			)}
-
-			{
-				view === VIEWS.SHOW_WINNER && (
-					<h2>{ winner === 'a' ? 'You Win' : winner === 'd' ? 'Nobody wins' : 'You lose'}</h2>
-				)
-			}
-		</>
+			{view === VIEWS.DEPLOYING && <Deploying></Deploying>}
+			{view === VIEWS.WAITING_FOR_ATTACHER && (
+				<WaitingAttacher></WaitingAttacher>
+			)}
+			{view === VIEWS.ATTACH_SUCCESS && <h1>ATTACH_SUCCESS....</h1>}
+			{view === VIEWS.AWAITING_TURN && <AwaitingTurn></AwaitingTurn>}
+			{view === VIEWS.SHOW_WINNER && (
+				<div>
+					{winner === "a" ? (
+						<div className='winner'>
+							<h1>You Win</h1>
+						</div>
+					) : winner === "d" ? (
+						<div className='draw'>
+							<h1>Nobody wins</h1>
+						</div>
+					) : (
+						<div className='lose'>
+							<h1>You lose</h1>
+						</div>
+					)}
+				</div>
+			)}
+		</div>
 	);
 };
 

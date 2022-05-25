@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../css/playhand.css";
 
 const PlayHand = ({ resolver, guesses, hand }) => {
 	const [value, setValue] = useState(0);
@@ -8,13 +9,13 @@ const PlayHand = ({ resolver, guesses, hand }) => {
 		e.preventDefault();
 		resolver.resolve(value);
 	};
-	console.log(hand)
+	console.log(hand);
 
 	return (
-		<>
-			{ ((hand === null)||(hand === undefined)) ? (
+		<div className='playHand__Container'>
+			{hand === null || hand === undefined ? (
 				<>
-					<h3>Submit A Number</h3>
+					<h1>Submit A Number</h1>
 					<input
 						type='number'
 						min='0'
@@ -28,31 +29,28 @@ const PlayHand = ({ resolver, guesses, hand }) => {
 			) : (
 				<>
 					<h3>You played {hand}</h3>
-					<table>
+					<table className='table text-white table-bordered'>
 						<thead>
 							<tr>
-								<td>Opponents Guess</td>
+								<th>Opponents Tries</th>
+								<th>Opponents Guess</th>
 							</tr>
-							<tr>
-							{guesses.map((guess, index) => {
-								return (
-										<td>Trial {index + 1}</td>
-								);
-							})}
-								</tr>
 						</thead>
 						<tbody>
-							<tr>
-								{guesses.map((guess, index) => {
-									console.log(guess);
-									return <td key={index}>{guess}</td>;
-								})}
-							</tr>
+							{guesses.map((guess, index) => {
+								console.log(guess);
+								return (
+									<tr key={index}>
+										<th>Trial {index + 1}</th>
+										<td key={index}>{guess}</td>
+									</tr>
+								);
+							})}
 						</tbody>
 					</table>
 				</>
 			)}
-		</>
+		</div>
 	);
 };
 
